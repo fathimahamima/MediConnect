@@ -412,12 +412,15 @@ model Notification {
   createdAt         DateTime            @default(now())
   sentAt            DateTime?
   deliveredAt       DateTime?
+  lastAttemptAt     DateTime?
+  nextAttemptAt     DateTime?
 
   patient Patient? @relation(fields: [patientId], references: [id])
   alert   Alert?   @relation(fields: [alertId], references: [id])
 
   @@index([status, createdAt])
   @@index([patientId, createdAt])
+  @@index([status, nextAttemptAt])
 }
 
 // ==========================================

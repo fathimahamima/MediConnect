@@ -48,8 +48,10 @@ import {
   doctorSummaryRoutes,
   patientSummaryRoutes,
 } from './routes/summary.routes.js'
+import profileRoutes from './routes/profile.routes.js'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 const app = express()
 if (process.env.NODE_ENV === 'production') {
   app.set('trust proxy', 1)
@@ -246,6 +248,7 @@ app.use(
   '/api/patient/summaries',
   patientSummaryRoutes
 )
+app.use('/api/profile', profileRoutes)
 // PRODUCTION FRONTEND
 
 if (process.env.NODE_ENV === 'production') {

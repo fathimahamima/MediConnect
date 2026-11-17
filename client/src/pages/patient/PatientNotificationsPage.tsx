@@ -157,10 +157,12 @@ const announcedAlerts = useRef(new Set<string>())
         </div>
 
         <p className="mt-5 text-xs leading-relaxed text-rose-100">
-          SOS currently creates an in-app request only.
-          It does not dispatch an ambulance, send SMS or
-          guarantee an immediate doctor response.
-          In an emergency, call emergency services directly.
+          SOS requests are recorded in MediConnect. Email notifications
+are queued for eligible recipients, including your assigned
+doctor and consenting emergency contacts.
+
+Email delivery and immediate assistance are not guaranteed.
+For a medical emergency, call 112.
         </p>
 
       </div>

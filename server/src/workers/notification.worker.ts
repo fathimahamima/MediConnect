@@ -1,10 +1,14 @@
+
 import {
   processEmailNotifications,
 } from '../services/alert-notification.service.js'
 
 let running = false
 
-let timer: ReturnType<typeof setInterval> | null = null
+let timer:
+  ReturnType<typeof setInterval> | null = null
+
+const POLL_INTERVAL = 5000
 
 async function processNotifications() {
 
@@ -30,17 +34,19 @@ export function startNotificationWorker() {
 
   if (timer) return
 
-  void processNotifications()
-
   timer = setInterval(() => {
 
     void processNotifications()
 
-  }, 5000)
+  }, POLL_INTERVAL)
 
   timer.unref()
 
-  console.log('Notification worker started')
+  void processNotifications()
+
+  console.log(
+    'Notification worker started with retry support'
+  )
 }
 
 export function stopNotificationWorker() {
@@ -51,4 +57,6 @@ export function stopNotificationWorker() {
 
     timer = null
   }
+
+  console.log('Notification worker stopped')
 }
