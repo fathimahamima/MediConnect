@@ -1,62 +1,113 @@
-import 'dotenv/config'
-import nodemailer from 'nodemailer'
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: Number(process.env.SMTP_PORT) === 465,
-  requireTLS: Number(process.env.SMTP_PORT) !== 465,
-
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-
-  connectionTimeout: 15000,
-  greetingTimeout: 15000,
-  socketTimeout: 30000,
-})
-
-interface EmailOptions {
+interface EmailInput {
   to: string
   subject: string
   html: string
   text: string
 }
 
-export async function verifyEmailConnection() {
-  await transporter.verify()
+function getEmailConfig() {
 
-  console.log(
-    'MediConnect email service connected'
-  )
+  const apiKey = process.env.BREVO_API_KEY
+  const senderEmail = process.env.EMAIL_FROM_ADDRESS
+
+  const senderName =
+    process.env.EMAIL_FROM_NAME || 'MediConnect'
+
+  if (!apiKey || !senderEmail) {
+    throw new Error('Email configuration is incomplete')
+  }
+
+  return {
+    apiKey,
+    senderEmail,
+    senderName,
+  }
 }
 
-export async function sendEmail(
-  options: EmailOptions
-) {
-  const result = await transporter.sendMail({
-    from: {
-      name:
-        process.env.EMAIL_FROM_NAME ||
-        'MediConnect',
+export async function verifyEmailConnection() {
 
-      address:
-        process.env.EMAIL_FROM_ADDRESS || '',
-    },
+  const { apiKey } = getEmailConfig()
 
-    to: options.to,
-    subject: options.subject,
-    html: options.html,
-    text: options.text,
-  })
+  const response = await fetch(
+    'https://api.brevo.com/v3/account',
+    {
+      method: 'GET',
 
-  if (!result.accepted.length) {
-    throw new Error('Email recipient not accepted')
+      headers: {
+        'api-key': apiKey,
+        accept: 'application/json',
+      },
+
+      signal: AbortSignal.timeout(15000),
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      `Brevo verification failed: ${response.status}`
+    )
+  }
+
+  return true
+}
+
+export async function sendEmail(input: EmailInput) {
+
+  const {
+    apiKey,
+    senderEmail,
+    senderName,
+  } = getEmailConfig()
+
+  const response = await fetch(
+    'https://api.brevo.com/v3/smtp/email',
+    {
+      method: 'POST',
+
+      headers: {
+        'api-key': apiKey,
+        'Content-Type': 'application/json',
+        accept: 'application/json',
+      },
+
+      body: JSON.stringify({
+
+        sender: {
+          name: senderName,
+          email: senderEmail,
+        },
+
+        to: [
+          {
+            email: input.to,
+          },
+        ],
+
+        subject: input.subject,
+        htmlContent: input.html,
+        textContent: input.text,
+      }),
+
+      signal: AbortSignal.timeout(20000),
+    }
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      `Brevo email request failed: ${response.status}`
+    )
+  }
+
+  const result = await response.json() as {
+    messageId?: string
+  }
+
+  if (!result.messageId) {
+    throw new Error('Brevo message ID missing')
   }
 
   return {
     messageId: result.messageId,
-    accepted: result.accepted,
+    accepted: [input.to],
   }
 }
