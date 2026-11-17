@@ -30,3 +30,4 @@ Thumbs.db
 # Arduino build files
 *.bin
 *.elf
+!client/.env.production
