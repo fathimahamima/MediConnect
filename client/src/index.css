@@ -1,0 +1,287 @@
+@import "tailwindcss";
+
+@theme {
+  --color-midnight: #080F26;
+  --color-deep-indigo: #172554;
+  --color-brand: #4361EE;
+  --color-lavender: #A5B4FC;
+  --color-ice: #E0F2FE;
+  --color-frost: #F4F7FF;
+
+  --font-sans: "Inter", sans-serif;
+  --font-heading: "Plus Jakarta Sans", sans-serif;
+}
+
+:root {
+  font-family: "Inter", sans-serif;
+  color: #172554;
+  background: #F4F7FF;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Plus Jakarta Sans", sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button, a, input, textarea, select {
+  transition: all 0.2s ease;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #4361EE;
+  outline-offset: 4px;
+}
+
+::selection {
+  background: #A5B4FC;
+  color: #080F26;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.68);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 12px 40px rgba(23, 37, 84, 0.08);
+}
+
+.glass-dark {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+/* =====================================
+   MEDICONNECT AUTHENTICATION
+===================================== */
+
+.auth-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
+.auth-input {
+  width: 100%;
+  min-height: 50px;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  transition: all 180ms ease;
+}
+
+.auth-input::placeholder {
+  color: #7f8da6;
+}
+
+.auth-input:hover {
+  border-color: rgba(165, 180, 252, 0.3);
+}
+
+.auth-input:focus {
+  border-color: #818cf8;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+}
+
+.auth-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-button {
+  min-height: 52px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  color: white;
+  background: linear-gradient(
+    110deg,
+    #2563eb,
+    #4f46e5
+  );
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(67, 97, 238, 0.24);
+  transition: all 200ms ease;
+}
+
+.auth-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(67, 97, 238, 0.4);
+}
+
+.auth-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.auth-input:-webkit-autofill {
+  -webkit-text-fill-color: white;
+  -webkit-box-shadow: 0 0 0 1000px #17213c inset;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-button,
+  .auth-input {
+    transition: none;
+  }
+
+  .auth-button:hover {
+    transform: none;
+  }
+}
+/* =====================================
+   MEDICONNECT DASHBOARD
+===================================== */
+
+.doctor-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #344365 transparent;
+}
+
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e5eaf5;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px rgba(30, 41, 59, 0.04);
+  transition:
+    transform 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 10px 35px rgba(30, 41, 59, 0.08);
+}
+
+.dashboard-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 13px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+  transition: all 180ms ease;
+}
+
+.dashboard-input:focus {
+  border-color: #818cf8;
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.10);
+}
+
+.dashboard-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.dashboard-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 12px;
+  background: linear-gradient(
+    110deg,
+    #4361ee,
+    #4f46e5
+  );
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms ease;
+}
+
+.dashboard-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(67, 97, 238, 0.22);
+}
+
+.dashboard-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-card,
+  .dashboard-button,
+  .dashboard-input {
+    transition: none;
+  }
+
+  .dashboard-button:hover {
+    transform: none;
+  }
+}

@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Hardware credentials
+secrets.h
+
+# Logs
+*.log
+
+# Editor files
+.vscode/
+.idea/
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Confidential reports
+*.pdf
+
+# Arduino build files
+*.bin
+*.elf
