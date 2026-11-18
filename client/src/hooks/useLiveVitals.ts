@@ -53,11 +53,17 @@ const socket = io(socketURL, {
 
   autoConnect: false,
 
+  transports: ['polling', 'websocket'],
+
   reconnection: true,
+
+  reconnectionAttempts: Infinity,
 
   reconnectionDelay: 1000,
 
   reconnectionDelayMax: 5000,
+
+  timeout: 20000,
 })
 
     const subscribe = () => {
@@ -148,12 +154,16 @@ const socket = io(socketURL, {
       setReading(null)
     })
 
-    socket.on('connect_error', () => {
+    socket.on('connect_error', (error) => {
 
-      setStatus('OFFLINE')
-      setReading(null)
-    })
+  console.error(
+    'MediConnect socket connection failed:',
+    error.message
+  )
 
+  setStatus('OFFLINE')
+  setReading(null)
+})
     const timer = window.setInterval(() => {
 
       if (

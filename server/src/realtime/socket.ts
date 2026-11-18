@@ -77,13 +77,25 @@ export function initializeRealtime(
   io.use(async (socket, next) => {
     try {
 
-      if (
-        socket.handshake.headers.origin !==
-        process.env.CLIENT_URL
-      ) {
-        next(new Error('Invalid origin'))
-        return
-      }
+      const allowedOrigin =
+  process.env.CLIENT_URL ||
+  'http://localhost:5173'
+
+const origin =
+  socket.handshake.headers.origin
+
+if (origin && origin !== allowedOrigin) {
+  next(new Error('Invalid origin'))
+  return
+}
+
+const fetchSite =
+  socket.handshake.headers['sec-fetch-site']
+
+if (!origin && fetchSite === 'cross-site') {
+  next(new Error('Invalid origin'))
+  return
+}
 
       const cookieName =
         process.env.COOKIE_NAME ||

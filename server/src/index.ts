@@ -86,9 +86,11 @@ app.use(
                 "'self'",
                 'data:',
               ],
-              connectSrc: [
-                "'self'",
-              ],
+             connectSrc: [
+  "'self'",
+  CLIENT_URL,
+  CLIENT_URL.replace(/^http/, 'ws'),
+],
               objectSrc: ["'none'"],
               frameAncestors: ["'none'"],
             },
